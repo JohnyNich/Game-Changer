@@ -1,2 +1,3 @@
-# Game Changer
-Game Changer is a game hub with a selection of games based of logic and luck.
+# Luck or Logic
+Luck or Logic is a game hub which contains games which tests what's luck and what's logic. 
+It combines games which makes you think, which'll have to make you think outisde the box. Think of it like a great big riddle.
