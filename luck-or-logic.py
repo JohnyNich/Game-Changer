@@ -28,19 +28,15 @@ def overwrite(source, write_line, text):
 		for line in lines:
 			writing.write(line)
 class Game (object):
+	highscore = 0
+	score = 0
 	def __init__(self, line): # Line is the line on all the files to read and write to which the information of that game will stored to. Eg. Blackjack is line 2 for all documents like highscore.txt
 		self.line = line
 	def get_highscore(self):
 		return linecache.getline("highscores.txt", self.line).strip()
-	def overwrite(slef, source, text):
-		with open(source, "r") as read_line:
-			lines = read_line.readlines()
-		lines[write_line - 1]  = text + "\n"
-		with open(source, "w") as writing:
-			for line in lines:
-				writing.write(line)
-	highscore = 0
-	score = 0
+	def new_highscore(self, new_highscore):
+		overwrite("highscores.txt", self.line, new_highscore)
+		self.highscore = new_highscore
 blackjack = Game(2)
 clear() # This is here just so that, if there's some text already on the termianl for some reason, it's gone.
 while True:
@@ -89,7 +85,7 @@ while True:
 				difference = 21 - computer_score
 				chance = difference / 19 # The smallest score you can get is 2, and the difference between 2 and 21 is 19. So the chance of failiure if the computer picks another card is calculated n / 19
 				chacne = chance * 100
-				if chacne >= 40:
+				if chacne >= 25:
 					computer_score += random.randint(1, 11)
 				else:
 					break
@@ -125,7 +121,7 @@ while True:
 				clear()
 				# Put in sound effect here
 				center_text("You Win!")
-				word_by_word("You're score is now " + str(blackjack_score))
+				word_by_word("You're score is now " + str(blackjack.score))
 				word_by_word("Do you want to quit the game or go to the next round? Type quit to quit and continue to continue.")
 				blackjack_exit = input("")
 				blackjack_exit = blackjack_exit.lower()
@@ -133,13 +129,13 @@ while True:
 					blackjack_exit = input("")
 					word_by_word("Please enter either continue or quit.")
 				if blackjack_exit == "quit":	
-					blackjack.highscore = blackhack.get_highscore()
-					if blackjack_score > int(blackjack_highscore):
-						overwrite("highscores.txt", 2, str(blackjack_score))
+					blackjack.highscore = blackjack.get_highscore()
+					if blackjack.score > int(blackjack.highscore):
+						blackjack.new_highscore(blackjack.highscore)
 						center_text("New Highscore!")
-						word_by_word("You now have a new highscore of " + str(blackjack_score))
+						word_by_word("You now have a new highscore of " + str(blackjack.score))
 					else:
-						word_by_word("The highscore for this game is + " + blackjack_highscore)
+						word_by_word("The highscore for this game is + " + blackjack.highscore)
 					break
 			elif result == "draw":
 				clear()
@@ -152,7 +148,7 @@ while True:
 				if blackjack_exit == "quit":	
 					blackjack.highscore = blackjack.get_highscore()
 					if blackjack_score > int(blackjack_highscore):
-						overwrite("highscores.txt", 2, str(blackjack_score))
+						blackjack.new_highscore(blackjack.highscore)
 						center_text("New Highscore!")
 						word_by_word("You now have a new highscore of " + str(blackjack.score))
 					else:
@@ -165,11 +161,11 @@ while True:
 				word_by_word("You have a final score of " + str(blackjack.score))
 				blackjack.highscore = blackjack.get_highscore()
 				if blackjack.score > int(blackjack.highscore):
-					overwrite("highscores.txt", 2, str(blackjack.score))
+					blackjack.new_highscore(blackjack.highscore)
 					center_text("New Highscore!")
 					word_by_word("You now have a new highscore of " + str(blackjack.score))
 				else:
-					word_by_word("The highscore for this game is + " + blackjack.highscore)
+					word_by_word("The highscore for this game is " + blackjack.highscore)
 				word_by_word("Do you want to play again?")
 				blackjack_exit = input("")
 				while blackjack_exit != "yes" and blackjack_exit != "no":
@@ -179,9 +175,12 @@ while True:
 					break
 				else:
 					blackjack.score = 0
-		print (games)
 	elif game == "exit":
 		sys.exit()
+	elif game == "games":
+		for game in games:
+			print (game, end=", ")
+		print("")
 	else:
 		print ("That's not a valid operation")
 
