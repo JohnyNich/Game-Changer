@@ -106,6 +106,7 @@ while True:
 					result = "loss"
 				elif player_score == computer_score:
 					word_by_word("You both got the same score. It's a draw.")
+					result = "draw"
 			time.sleep(2)
 			if result == "win":
 				blackjack_score += 1
@@ -160,9 +161,9 @@ while True:
 				word_by_word("Do you want to play again?")
 				blackjack_exit = input("")
 				while blackjack_exit != "yes" and blackjack_exit != "no":
-					blackjack_exit = input("")
 					word_by_word("Please enter either yes or no.")
-				if blackjack_exit == "yes":
+					blackjack_exit = input("")
+				if blackjack_exit == "no":
 					break
 				else:
 					blackjack_score = 0
