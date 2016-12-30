@@ -6,7 +6,6 @@ import linecache
 games = ["blackjack"]
 startup = True
 pick_again = "yes"
-blackjack_score = 0
 blackjack_exit = "continue"
 def clear():
 	os.system("clear")
@@ -21,8 +20,6 @@ def center_text(string):
 	spaces = (terminal_size.columns - len(string)) / 2
 	print (" " * int(spaces), end = "")
 	word_by_word(string)
-def get_highscore(line):
-	return linecache.getline("highscores.txt", line).strip()
 def overwrite(source, write_line, text):
 	with open(source, "r") as read_line:
 		lines = read_line.readlines()
@@ -30,6 +27,21 @@ def overwrite(source, write_line, text):
 	with open(source, "w") as writing:
 		for line in lines:
 			writing.write(line)
+class Game (object):
+	def __init__(self, line): # Line is the line on all the files to read and write to which the information of that game will stored to. Eg. Blackjack is line 2 for all documents like highscore.txt
+		self.line = line
+	def get_highscore(self):
+		return linecache.getline("highscores.txt", self.line).strip()
+	def overwrite(slef, source, text):
+		with open(source, "r") as read_line:
+			lines = read_line.readlines()
+		lines[write_line - 1]  = text + "\n"
+		with open(source, "w") as writing:
+			for line in lines:
+				writing.write(line)
+	highscore = 0
+	score = 0
+blackjack = Game(2)
 clear() # This is here just so that, if there's some text already on the termianl for some reason, it's gone.
 while True:
 	if startup == True:
@@ -109,7 +121,7 @@ while True:
 					result = "draw"
 			time.sleep(2)
 			if result == "win":
-				blackjack_score += 1
+				blackjack.score += 1
 				clear()
 				# Put in sound effect here
 				center_text("You Win!")
@@ -121,7 +133,7 @@ while True:
 					blackjack_exit = input("")
 					word_by_word("Please enter either continue or quit.")
 				if blackjack_exit == "quit":	
-					blackjack_highscore = get_highscore(2)
+					blackjack.highscore = blackhack.get_highscore()
 					if blackjack_score > int(blackjack_highscore):
 						overwrite("highscores.txt", 2, str(blackjack_score))
 						center_text("New Highscore!")
@@ -138,26 +150,26 @@ while True:
 					blackjack_exit = input("")
 					word_by_word("Please enter either continue or quit.")
 				if blackjack_exit == "quit":	
-					blackjack_highscore = get_highscore(2)
+					blackjack.highscore = blackjack.get_highscore()
 					if blackjack_score > int(blackjack_highscore):
 						overwrite("highscores.txt", 2, str(blackjack_score))
 						center_text("New Highscore!")
-						word_by_word("You now have a new highscore of " + str(blackjack_score))
+						word_by_word("You now have a new highscore of " + str(blackjack.score))
 					else:
-						word_by_word("The highscore for this game is + " + blackjack_highscore)
+						word_by_word("The highscore for this game is + " + blackjack.highscore)
 					break
 			else:
 				clear()
 				# Put in sound effect here
 				center_text("You loose")
-				word_by_word("You have a final score of " + str(blackjack_score))
-				blackjack_highscore = get_highscore(2)
-				if blackjack_score > int(blackjack_highscore):
-					overwrite("highscores.txt", 2, str(blackjack_score))
+				word_by_word("You have a final score of " + str(blackjack.score))
+				blackjack.highscore = blackjack.get_highscore()
+				if blackjack.score > int(blackjack.highscore):
+					overwrite("highscores.txt", 2, str(blackjack.score))
 					center_text("New Highscore!")
-					word_by_word("You now have a new highscore of " + str(blackjack_score))
+					word_by_word("You now have a new highscore of " + str(blackjack.score))
 				else:
-					word_by_word("The highscore for this game is + " + blackjack_highscore)
+					word_by_word("The highscore for this game is + " + blackjack.highscore)
 				word_by_word("Do you want to play again?")
 				blackjack_exit = input("")
 				while blackjack_exit != "yes" and blackjack_exit != "no":
@@ -166,7 +178,7 @@ while True:
 				if blackjack_exit == "no":
 					break
 				else:
-					blackjack_score = 0
+					blackjack.score = 0
 		print (games)
 	elif game == "exit":
 		sys.exit()
