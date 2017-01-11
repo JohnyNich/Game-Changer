@@ -3,6 +3,8 @@ import os
 import time
 import random
 import linecache
+if sys.platform == "win32":
+	import winsound
 games = ["blackjack"]
 startup = True
 pick_again = "yes"
