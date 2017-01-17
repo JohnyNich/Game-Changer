@@ -5,12 +5,15 @@ import random
 import linecache
 if sys.platform == "win32":
 	import winsound
-games = ["blackjack", "roulette"]
+games = ["blackjack", "blackjack"]
 startup = True
 pick_again = "yes"
 blackjack_exit = "continue"
 def clear():
-	os.system("clear")
+	if sys.platform == "darwin":
+		os.system("clear")
+	elif sys.platform == "win32":
+		os.system("cls")
 def word_by_word(sentence):
 	for letter in sentence:
 		print(letter, end="")
@@ -50,7 +53,7 @@ while True:
 		game = input("What do you want to do? \n")
 	game = game.lower()
 	if game == "blackjack":
-		os.system("clear")
+		clear()
 		center_text("Welcome to Blackjack")
 		word_by_word("In this game, you will be given 2 cards, each can be from either 1 to 11.")
 		word_by_word("The total of these two cards is your score. The goal of the game is for you to get the number closest to 21 versus your oponent.")
@@ -122,7 +125,8 @@ while True:
 			if result == "win":
 				blackjack.score += 1
 				clear()
-				# Put in sound effect here
+				if sys.platform == "win32":
+					winsound.PlaySound("sounds/tada.wav", winsound.SND_ASYNC)
 				center_text("You Win!")
 				word_by_word("You're score is now " + str(blackjack.score))
 				word_by_word("Do you want to quit the game or go to the next round? Type quit to quit and continue to continue.")
@@ -142,7 +146,7 @@ while True:
 					break
 			elif result == "draw":
 				clear()
-				# Put in sound effect here
+				# Put sound effect here
 				center_text("It's a draw")
 				word_by_word("Do you want to quit the game or go to the next round? Type quit to quit and continue to continue.")
 				while blackjack_exit != "continue" and blackjack_exit != "quit":
@@ -159,7 +163,8 @@ while True:
 					break
 			else:
 				clear()
-				# Put in sound effect here
+				if sys.platform == "win32":
+					winsound.PlaySound("sounds/loose.wav", winsound.SND_ASYNC)
 				center_text("You loose")
 				word_by_word("You have a final score of " + str(blackjack.score))
 				blackjack.highscore = blackjack.get_highscore()
@@ -179,16 +184,16 @@ while True:
 				else:
 					blackjack.score = 0
 	elif game == "roulette":
-		center_text("Welcome to Roulette")
-		word_by_word("Roulette is a game, typicaly played with a wheel with 38 numbers on it, where you either must guess which number the wheel will land on when spinned or guess what color it will land on.")
-		word_by_word("There are 36 numbrs on the wheel, with 2 of them being 0 or 00, which are jackpot numbers. 18 of the numbers are red and 18 are black, with 0 and 00 being green.")
-		word_by_word("In this version of the game, if you guess the right color, you're score will be timsed by 1.5. If you guess the right number, your score will be timsed byy 5.")
-		word_by_word("If you land on a jackpot number, the score you bet will be timsed by 10.")
-		word_by_word("Let's begin.")
-		while True:
-			clear()
-			roulette.score = 10
-			word_by_word("You are starting with a score of 10. Do")
+-		center_text("Welcome to Roulette")
+-		word_by_word("Roulette is a game, typicaly played with a wheel with 38 numbers on it, where you either must guess which number the wheel will land on when spinned or guess what color it will land on.")
+-		word_by_word("There are 36 numbrs on the wheel, with 2 of them being 0 or 00, which are jackpot numbers. 18 of the numbers are red and 18 are black, with 0 and 00 being green.")
+-		word_by_word("In this version of the game, if you guess the right color, you're score will be timsed by 1.5. If you guess the right number, your score will be timsed byy 5.")
+-		word_by_word("If you land on a jackpot number, the score you bet will be timsed by 10.")
+-		word_by_word("Let's begin.")
+-		while True:
+-			clear()
+-			roulette.score = 10
+-			word_by_word("You are starting with a score of 10. Do")
 	elif game == "exit":
 		sys.exit()
 	elif game == "games":
