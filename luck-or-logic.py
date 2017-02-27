@@ -185,15 +185,9 @@ while True:
 					blackjack.score = 0
 	elif game == "roulette":
 		center_text("Welcome to Roulette")
-		word_by_word("Roulette is a game, typicaly played with a wheel with 38 numbers on it, where you either must guess which number the wheel will land on when spinned or guess what color it will land on.")
-		word_by_word("There are 36 numbrs on the wheel, with 2 of them being 0 or 00, which are jackpot numbers. 18 of the numbers are red and 18 are black, with 0 and 00 being green.")
-		word_by_word("In this version of the game, if you guess the right color, you're score will be timsed by 1.5. If you guess the right number, your score will be timsed byy 5.")
-		word_by_word("If you land on a jackpot number, the score you bet will be timsed by 10.")
-		word_by_word("Let's begin.")
-		while True:
-			clear()
-			roulette.score = 10
-			word_by_word("You are starting with a score of 10. Do")
+		word_by_word("Roulette is a game, typicaly played with a wheel with where you must either bet on black or white.")
+		word_by_word("Let's begin. You will start with a score of 50")
+		roulette.score = 50
 	elif game == "exit":
 		sys.exit()
 	elif game == "games":
